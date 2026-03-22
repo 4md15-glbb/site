@@ -131,12 +131,26 @@
         <form class="consultation-form reveal" action="#" method="post">
           <h2>Запишитесь<br>на консультацию</h2>
           <label>
-            Ваше Имя*
-            <input type="text" name="name" required>
+            Ваше имя*
+            <input type="text" name="name" autocomplete="name" required>
           </label>
           <label>
-            Номер телефона или email*
-            <input type="text" name="contact" required>
+            Email*
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>
+            Интересующая услуга*
+            <select name="service" required>
+              <option value="" selected disabled>Выберите юридическую услугу</option>
+              <option>Правовое сопровождение онлайн-бизнеса</option>
+              <option>Договоры и оферты для сайта</option>
+              <option>Защита интеллектуальной собственности</option>
+              <option>Регистрация товарного знака</option>
+              <option>Сопровождение рекламных интеграций</option>
+              <option>Юридический аудит запуска курса</option>
+              <option>Обработка персональных данных</option>
+              <option>Претензии и досудебное урегулирование</option>
+            </select>
           </label>
           <button class="btn btn-accent btn-primary-size w-100 btnform" type="submit">Записаться на консультацию</button>
         </form>
