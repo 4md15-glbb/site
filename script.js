@@ -8,8 +8,8 @@ const observer = new IntersectionObserver((entries, obs) => {
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 
-const SUPABASE_URL = window.SUPABASE_URL || 'PASTE_YOUR_SUPABASE_URL_HERE';
-const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'PASTE_YOUR_SUPABASE_ANON_KEY_HERE';
+const SUPABASE_URL = window.SUPABASE_URL || 'https://lmfzrampmbjjbcabirby.supabase.co';
+const SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'sb_publishable_xPNNY1UlFQe8gPTuYjCKlA_s8v8D1-_';
 
 const form = document.querySelector('.consultation-form');
 const serviceSelect = form?.querySelector('select[name="service"]');
@@ -20,8 +20,8 @@ const isSupabaseConfigured =
   typeof window.supabase !== 'undefined' &&
   SUPABASE_URL &&
   SUPABASE_ANON_KEY &&
-  !SUPABASE_URL.includes('PASTE_YOUR_SUPABASE_URL_HERE') &&
-  !SUPABASE_ANON_KEY.includes('PASTE_YOUR_SUPABASE_ANON_KEY_HERE');
+  !SUPABASE_URL.includes('https://lmfzrampmbjjbcabirby.supabase.co') &&
+  !SUPABASE_ANON_KEY.includes('sb_publishable_xPNNY1UlFQe8gPTuYjCKlA_s8v8D1-_');
 
 const supabaseClient = isSupabaseConfigured
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -39,12 +39,6 @@ async function loadServices() {
 
   serviceSelect.innerHTML = '<option value="" selected disabled>Загрузка услуг...</option>';
 
-  if (!supabaseClient) {
-    serviceSelect.innerHTML = '<option value="" selected disabled>Укажите Supabase URL и anon key</option>';
-    setFormStatus('Для подключения формы добавьте SUPABASE_URL и SUPABASE_ANON_KEY в index.html.', 'error');
-    return;
-  }
-
   const { data, error } = await supabaseClient
     .from('services')
     .select('id, name')
@@ -53,7 +47,7 @@ async function loadServices() {
   if (error) {
     console.error('Ошибка загрузки услуг:', error);
     serviceSelect.innerHTML = '<option value="" selected disabled>Не удалось загрузить услуги</option>';
-    setFormStatus('Не удалось получить список услуг из Supabase.', 'error');
+    setFormStatus('Не удалось получить список услуг.', 'error');
     return;
   }
 
@@ -71,7 +65,7 @@ form?.addEventListener('submit', async (event) => {
   event.preventDefault();
 
   if (!supabaseClient) {
-    setFormStatus('Форма не подключена: заполните настройки Supabase.', 'error');
+    setFormStatus('Форма не подключена.', 'error');
     return;
   }
 
@@ -101,7 +95,7 @@ form?.addEventListener('submit', async (event) => {
 
   if (error) {
     console.error('Ошибка отправки заявки:', error);
-    setFormStatus('Не удалось отправить заявку. Проверьте настройки Supabase и RLS policy.', 'error');
+    setFormStatus('Не удалось отправить заявку.', 'error');
 
     if (submitButton) {
       submitButton.disabled = false;
