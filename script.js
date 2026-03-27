@@ -111,7 +111,16 @@ form?.addEventListener('submit', async (event) => {
     return;
   }
 
-  // Загружаем услуги только если клиент инициализирован
+  form.reset();
+  setFormStatus('Заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.', 'success');
+
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = initialText;
+  }
+});
+
+// Загружаем услуги только если клиент инициализирован
 if (supabaseClient) {
   loadServices();
 } else {
@@ -121,14 +130,5 @@ if (supabaseClient) {
   }
   setFormStatus('Сервис временно недоступен. Пожалуйста, свяжитесь с нами по телефону.', 'error');
 }
-
-  form.reset();
-  setFormStatus('Заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.', 'success');
-
-  if (submitButton) {
-    submitButton.disabled = false;
-    submitButton.textContent = initialText;
-  }
-});
 
 loadServices();
