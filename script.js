@@ -20,8 +20,8 @@ const isSupabaseConfigured =
   typeof window.supabase !== 'undefined' &&
   SUPABASE_URL &&
   SUPABASE_ANON_KEY &&
-  !SUPABASE_URL.includes('https://lmfzrampmbjjbcabirby.supabase.co') &&
-  !SUPABASE_ANON_KEY.includes('sb_publishable_xPNNY1UlFQe8gPTuYjCKlA_s8v8D1-_');
+  SUPABASE_URL !== 'https://lmfzrampmbjjbcabirby.supabase.co' &&  // Проверяем, что это не заглушка
+  SUPABASE_ANON_KEY !== 'sb_publishable_xPNNY1UlFQe8gPTuYjCKlA_s8v8D1-_';
 
 const supabaseClient = isSupabaseConfigured
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -36,6 +36,13 @@ function setFormStatus(message, type = 'info') {
 
 async function loadServices() {
   if (!serviceSelect) return;
+
+   // Проверяем, инициализирован ли клиент
+  if (!supabaseClient) {
+    serviceSelect.innerHTML = '<option value="" selected disabled>Сервис временно недоступен</option>';
+    setFormStatus('Форма временно недоступна.', 'error');
+    return;
+  }
 
   serviceSelect.innerHTML = '<option value="" selected disabled>Загрузка услуг...</option>';
 
@@ -103,6 +110,17 @@ form?.addEventListener('submit', async (event) => {
     }
     return;
   }
+
+  // Загружаем услуги только если клиент инициализирован
+if (supabaseClient) {
+  loadServices();
+} else {
+  // Если клиент не инициализирован, показываем сообщение
+  if (serviceSelect) {
+    serviceSelect.innerHTML = '<option value="" selected disabled>Сервис временно недоступен</option>';
+  }
+  setFormStatus('Сервис временно недоступен. Пожалуйста, свяжитесь с нами по телефону.', 'error');
+}
 
   form.reset();
   setFormStatus('Заявка успешно отправлена. Мы свяжемся с вами в ближайшее время.', 'success');
