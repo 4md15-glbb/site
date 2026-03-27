@@ -284,7 +284,7 @@ a { color: inherit; text-decoration: none; }
   color: var(--text);
 }
 
-.btnform { margin-top: 28px; }
+.btnform { margin-top: 16px; }
 
 .consultation-form input,
 .consultation-form select {
