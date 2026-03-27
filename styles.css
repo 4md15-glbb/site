@@ -395,6 +395,8 @@ a { color: inherit; text-decoration: none; }
   .btn-service,
   .consultation-form { width: 100%; min-width: 0; }
   .about-card { min-height: unset; }
+  .quote-icon-open { top: -20px; }
+  .philosophy-quote p { margin-top: 20px; }
 }
 
 
