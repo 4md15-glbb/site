@@ -19,9 +19,7 @@ const formStatus = document.querySelector('#form-status');
 const isSupabaseConfigured =
   typeof window.supabase !== 'undefined' &&
   SUPABASE_URL &&
-  SUPABASE_ANON_KEY &&
-  SUPABASE_URL !== 'https://lmfzrampmbjjbcabirby.supabase.co' &&  // Проверяем, что это не заглушка
-  SUPABASE_ANON_KEY !== 'sb_publishable_xPNNY1UlFQe8gPTuYjCKlA_s8v8D1-_';
+  SUPABASE_ANON_KEY;
 
 const supabaseClient = isSupabaseConfigured
   ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
@@ -120,15 +118,11 @@ form?.addEventListener('submit', async (event) => {
   }
 });
 
-// Загружаем услуги только если клиент инициализирован
 if (supabaseClient) {
   loadServices();
 } else {
-  // Если клиент не инициализирован, показываем сообщение
   if (serviceSelect) {
     serviceSelect.innerHTML = '<option value="" selected disabled>Сервис временно недоступен</option>';
   }
   setFormStatus('Сервис временно недоступен. Пожалуйста, свяжитесь с нами по телефону.', 'error');
-}
-
-loadServices();
+};
